@@ -45,7 +45,7 @@ An interpreter to be used with the most common pattern and rule file formats. It
 	
 ## How to use
 
-First you need to create and populate a **Model** object:
+After importing the concatenated or minified version of the library (found in the bin directory) you need to create and populate a **Model** object:
 
 ```javascript
 	model = CA.Utils.getModelFitToDimensions(cellLength, self.windowWidth, self.windowHeight);
