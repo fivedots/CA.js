@@ -135,7 +135,7 @@ CA.Model = function(matrixWidth, matrixHeight) {
 	*(where a radius of 1 is equal to the Moore neighborhood) that are currently in the specified state.
 	*If the cell is adjacent to a border the non-existent neighbors are not counted
 	*/
-	this.getMatrixNeighborsInState = function() {
+	this.getMatrixNeighborsInState = function(x, y, state) {
 		var resp = [];
 
 		for (var i = -self.neighborhoodRadius; i <= self.neighborhoodRadius; i++) {
@@ -868,6 +868,18 @@ function Format() {
 var CA = CA || {};
 CA.Utils = {};
 
+CA.Utils.stepController = function() {
+	this.doStep = true;
+}
+CA.Utils.stepController.prototype.run = function() {
+	this.doStep = true;
+}
+CA.Utils.stepController.prototype.stop = function() {
+	this.doStep = false;
+}
+CA.Utils.stepController.prototype.toggle = function() {
+	this.doStep = !this.doStep;
+}
 
 /**
 *Runs the model indefinitely, updating and painting it every updateEvery milis
@@ -875,13 +887,16 @@ CA.Utils = {};
 CA.Utils.stepEvery = function(updateEvery, model, painter) {
 	painter.paintGrid(model.matrix);
 
+	var control =  new CA.Utils.stepController();
+
 	var intervalID = setInterval(function() {
-
-		var changedCells  = model.step();
-		painter.paintCells(changedCells);
-
+		if(control.doStep) {
+			var changedCells  = model.step();
+			painter.paintCells(changedCells);
+		}
 	}, updateEvery);
 
+	return control;
 }
 
 /**

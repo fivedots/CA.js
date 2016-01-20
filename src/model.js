@@ -135,7 +135,7 @@ CA.Model = function(matrixWidth, matrixHeight) {
 	*(where a radius of 1 is equal to the Moore neighborhood) that are currently in the specified state.
 	*If the cell is adjacent to a border the non-existent neighbors are not counted
 	*/
-	this.getMatrixNeighborsInState = function() {
+	this.getMatrixNeighborsInState = function(x, y, state) {
 		var resp = [];
 
 		for (var i = -self.neighborhoodRadius; i <= self.neighborhoodRadius; i++) {

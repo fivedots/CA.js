@@ -1,6 +1,18 @@
 var CA = CA || {};
 CA.Utils = {};
 
+CA.Utils.stepController = function() {
+	this.doStep = true;
+}
+CA.Utils.stepController.prototype.run = function() {
+	this.doStep = true;
+}
+CA.Utils.stepController.prototype.stop = function() {
+	this.doStep = false;
+}
+CA.Utils.stepController.prototype.toggle = function() {
+	this.doStep = !this.doStep;
+}
 
 /**
 *Runs the model indefinitely, updating and painting it every updateEvery milis
@@ -8,13 +20,16 @@ CA.Utils = {};
 CA.Utils.stepEvery = function(updateEvery, model, painter) {
 	painter.paintGrid(model.matrix);
 
+	var control =  new CA.Utils.stepController();
+
 	var intervalID = setInterval(function() {
-
-		var changedCells  = model.step();
-		painter.paintCells(changedCells);
-
+		if(control.doStep) {
+			var changedCells  = model.step();
+			painter.paintCells(changedCells);
+		}
 	}, updateEvery);
 
+	return control;
 }
 
 /**
@@ -23,16 +38,20 @@ CA.Utils.stepEvery = function(updateEvery, model, painter) {
 CA.Utils.stepFor = function(n, updateEvery, painter, model) {
 	painter.paintGrid(model.matrix);
 
+	var control =  new CA.Utils.stepController();
+
 	var intervalID = setInterval(function() {
+		if(control.doStep) {
+			var changedCells  = model.step();
+			painter.paintCells(changedCells);
 
-		var changedCells  = model.step();
-		painter.paintCells(changedCells);
-
-		if(n--<0) {
-			clearInterval(intervalID);
+			if(n--<0) {
+				clearInterval(intervalID);
+			}
 		}
-
 	}, updateEvery);
+
+	return control;
 }
 
 /**

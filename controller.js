@@ -29,5 +29,5 @@ function setUp() {
 	painter = new CA.Painter(colors, cellLength, "canvas");
 
 	//Steps to the next generation every 10 ms
-	CA.Utils.stepEvery(10, model, painter);
+	var control = CA.Utils.stepEvery(10, model, painter);
 }
