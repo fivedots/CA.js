@@ -905,16 +905,20 @@ CA.Utils.stepEvery = function(updateEvery, model, painter) {
 CA.Utils.stepFor = function(n, updateEvery, painter, model) {
 	painter.paintGrid(model.matrix);
 
+	var control =  new CA.Utils.stepController();
+
 	var intervalID = setInterval(function() {
+		if(control.doStep) {
+			var changedCells  = model.step();
+			painter.paintCells(changedCells);
 
-		var changedCells  = model.step();
-		painter.paintCells(changedCells);
-
-		if(n--<0) {
-			clearInterval(intervalID);
+			if(n--<0) {
+				clearInterval(intervalID);
+			}
 		}
-
 	}, updateEvery);
+
+	return control;
 }
 
 /**
