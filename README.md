@@ -72,7 +72,7 @@ Since this rule set comes with a suggested color palette we just have to pass th
 ```
 This method steps the model every 10ms and then repaints it on the screen. That's it! To check out more examples, see the Examples section.
 
-To see a live example please check fivedots.github.io/CA.js and its sources: the index.html and controller.js files at the top level of the project directory. 
+To see a live example please check [fivedots.github.io/CA.js](fivedots.github.io/CA.js) and its sources: the index.html and controller.js files at the top level of the project directory. 
 
 ## Examples
 
